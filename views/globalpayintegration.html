@@ -1,0 +1,23 @@
+<div data-ng-controller="GlobalPayIntegrationController">
+<br/><br/><br/>
+<div class="alert alert-success">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div>
+ <form action="https://demo.globalpay.com.ng/globalpay_demo/Paymentgatewaycapture.aspx" method="post">
+ 
+	<input type="hidden"   name="currency" 		  value="{{currencyType}}"> 
+	<input type="hidden"   name="merch_txnref" 	  value="{{txnref}}">
+	<input type="hidden"   name="merchantid" 	  	  value="{{merchantId}}"> 
+	<input type="hidden"   name="names" 		      value ="{{names}}"/>
+	<input type="hidden"   name="amount" 		      value="{{amount}}"/>
+	<input type="hidden"   name="email_address"     value="{{email}}" />
+	<input type="hidden"   name="phone_number"      value="{{phone}}" />
+    <button id="submitGlobalPayIntegration" type="submit" class="btn btn-primary" data-ng-hide="true">submit</button>
+</form>
+</div>

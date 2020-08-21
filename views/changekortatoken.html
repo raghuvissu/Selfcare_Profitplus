@@ -1,0 +1,71 @@
+<div data-ng-controller="ChangeKortaTokenController">
+<br/>
+<div class="headersdiv" >
+  <h3><b class="marginleft10">{{'label.add.kota.Info'|translate}}</b></h3>
+</div>
+<form name="changeTokenForm" novalidate action="https://netgreidslur.korta.is/testing/" method="post" class="form-horizontal well">
+<br/>
+		<input name="amount" type="hidden" value="{{amount}}">
+		<input name="currency" type="hidden" value="{{currency}}">
+		<input name="merchant" type="hidden" value="{{kortaMerchantId}}">
+		<input name="terminal" type="hidden" value="{{kortaTerminalId}}">
+		<input name="description" type="hidden" value="{{description}}">
+		<input name="token" type="hidden" value={{tokenVal}}>
+		<input name="do" type="hidden" value="{{doAction}}">
+		<input name="lang" type="hidden" value="{{optlang}}"> 
+		
+		<input type="hidden" name="name" value="{{fullName}}">
+		<input type="hidden" name="address" value="{{address}}">
+		<input type="hidden" name="email" value="{{emailId}}">
+		<input type="hidden" name="email2" value="{{emailId}}">
+		<input type="hidden" name="zip" value="{{zipcode}}">
+		<input type="hidden" name="city" value="{{city}}">
+		<input type="hidden" name="country" value="{{country}}">
+		<input type="hidden" name="phone" value="{{mobileNo}}">
+		<input type="hidden" name="terms" value="{{terms}}">
+		<input type="hidden" name="readonly" value="Y"> 
+		
+		<input name="checkvaluemd5" type="hidden" value={{md5value}}>
+		<input type="hidden" name="downloadurl" value="{{downloadurl}}">
+		<input type="hidden" name="refermethod" value="REDIRECT">
+		<input type="hidden" name="refertarget" value="_top">
+
+		<fieldset>
+			<div class="control-group">
+				<label class="control-label" >{{ 'label.do.action' | translate }}<span class="required">*</span></label>
+				<div class="controls">
+						<input type="text" data-ng-model="doAction" data-reqiured data-late-Validate disabled/>
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" >{{'label.description' | translate}}<span class="required">*</span></label>
+				<div class="controls">
+					<textarea rows="2" data-ng-model="description" data-reqiured data-late-Validate disabled></textarea>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+				    <input type="checkbox" name="checkbox" data-ng-model="terms" data-ng-true-value="Y"  data-ng-false-value="N" data-reqiured > 
+				    <span> {{'label.agree' | translate}} <a data-ng-click="termsAndConditionsFun()" style="color: #0066cc;text-decoration: underline;">
+					    		{{'label.Terms.Conditions' | translate}}</a> 
+					</span>
+				</div>
+			</div> 
+
+		</fieldset>
+		<div class="offset3">
+			<a id="cancel" href="#/profile" class="btn">{{'btn.cancel' | translate}}</a> 
+			<button id="submit" type="submit" data-ng-click="submit()" data-ng-disabled="terms == 'N'" class="btn btn-primary">{{'btn.submit' | translate}}</button>
+		</div>
+</form>
+	 <script type="text/ng-template" id="termsandconditions.html">
+		<form  class="form-horizontal well" style="border:0px;width:550px;padding:10px;">
+			<h4><strong>{{'label.terms.conditions' | translate}}</strong></h4>
+			<div>{{'label.read.agreement' | translate}}</div><br/>
+			<div style="max-height:300px; overflow-y:auto;border:1px solid;padding:10px;">
+				{{termsAndConditionsText}}
+		   </div><br/>
+		 <table class="fullwidth"><tr><td align="center"><div><a data-ng-click="done()" class="btn btn-primary">Done</a></div></td></tr></table>
+		</form>
+      </script>
+</div>

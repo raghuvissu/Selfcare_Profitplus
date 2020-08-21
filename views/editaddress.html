@@ -1,0 +1,112 @@
+<div data-ng-controller="EditAddressController">
+	 <div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+    </div>
+	<div>
+		<ul class="breadcrumb borderradius15">
+			<li><a href="#/address" class="colorwhite">Address</a> <span class="divider colorwhite">/</span></li>
+			<li class="active colorwhite">Edit Address</li>
+		</ul>
+	</div>
+<form name="editaddressform" class="form-horizontal well" novalidate  data-ng-submit="submit()">
+<br/>
+ 	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+    </div>
+	<fieldset>
+		<table>
+			<tr>
+				<td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">Address&nbsp;<span class="required">*</span></label>
+          			   <div class="controls">
+		                 <input data-ng-autofocus="true" name="address" type="text" data-ng-model="formData.addressNo" placeholder= "Address" 
+                            required data-late-Validate/>
+                            <div data-ng-show="editaddressform.address.$invalid">
+	                             <small class="error" data-ng-show="editaddressform.address.$error.req">
+	                                Address should not be blank
+	                             </small>
+	                         </div>
+          			   </div>
+      				</div>
+       			</td>
+       			<td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">Street</label>
+          			   <div class="controls">
+		                 <input name="street" type="text" data-ng-model="formData.street" placeholder= "Street">
+          			   </div>
+      				</div>
+       			</td>
+	       		
+			</tr>
+			<tr>
+				<td valign="top">
+      			  <div class="control-group" style="margin-bottom:30px;">
+          			<label class="control-label">City&nbsp;<span class="required">*</span></label>
+       				<div class="controls">
+                <input type="text" id="city" name="city" data-ng-model="formData.city" autocomplete="off" list="citylist"  data-ng-change="getStateAndCountry(formData.city)" required  data-late-Validate/>
+                <div data-ng-show="editaddressform.city.$invalid">
+                     <small class="error" data-ng-show="editaddressform.city.$error.req">
+                        City should not be blank
+                     </small>
+                 </div>
+       				</div>
+              <datalist id="citylist">
+                      <option  data-ng-repeat="cityData in cityDatas" value="{{cityData}}">
+                </datalist>
+      			  </div>
+	       		</td>
+	       		<td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">State&nbsp;<span class="required">*</span></label>
+          			   <div class="controls">
+		                 <input type="text" id="state" name="state" ng-model="formData.state" readonly required data-late-Validate/>
+                      <div data-ng-show="editaddressform.state.$invalid">
+                         <small class="error" data-ng-show="editaddressform.state.$error.req">
+                            State should not be blank
+                         </small>
+                     </div>
+          			   </div>
+      				</div>
+       			</td>
+			</tr>
+			<tr>
+				<td valign="top">
+                <div class="control-group" style="margin-bottom:30px;">
+                   <label class="control-label">Country&nbsp;<span class="required">*</span></label>
+                   <div class="controls">
+                     <input type="text" id="country" name="country" ng-model="formData.country" readonly required data-late-Validate/>
+                      <div data-ng-show="editaddressform.country.$invalid">
+                         <small class="error" data-ng-show="editaddressform.country.$error.req">
+                            Country should not be blank
+                         </small>
+                     </div>
+                   </div>
+              </div>
+            </td>
+       			<td valign="top">
+                <div class="control-group" style="margin-bottom:30px;">
+                   <label class="control-label">Zip Code</label>
+                   <div class="controls">
+                     <input type="text" id="zipCode" name="zipCode" ng-model="formData.zipCode"/>
+                   </div>
+                  </div>
+            </td>
+			</tr>
+		   <tr><td colspan="2" align="right">
+			<a id="cancel" href="#/address"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>
+			<button id="submit" type="submit" class="btn btn-primary" data-ng-disabled="!editaddressform.$valid">{{'btn.save' | translate}}</button>
+		</td></tr></table>
+
+	</fieldset>
+</form>
+</div>
+</div>

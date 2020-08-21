@@ -1,0 +1,186 @@
+<div data-ng-controller="MultiroomPrepaidPlansController">
+	 <div style="height:430px;overflow-y:auto;" data-ng-if="screenName != 'additionalorders'">
+	 	<div data-ng-repeat="plan in plansData track by $index" data-ng-show="plan.pricingData.length!=0"> 
+	 	  <div class="packbox6" style="height:210px;min-width: 300px;" data-ng-if="plan.isPrepaid == 'Y'">
+	 	  	 <div class="ribbon ribbon-small ribbongreen">
+				<div class="banner">
+					<div class="text">prepaid</div>
+				</div>
+			</div>
+			<h1 style="line-height: 25px;">{{plan.planCode}}
+			<a data-ng-click="viewPlanServices(plan.planId)" style="color:#fff;text-transform: lowercase;"> ({{'label.view' | translate}}) </a></h1>
+			<ul style="margin: 0 0 0 0px;padding: 5px 2px 0px 2px;" class="newprepboxh" data-ng-class="{renewprepboxh:screenName == 'renewalorder'}">
+			  <li data-ng-repeat="priceData in plan.pricingData track by $index" class="nonecontent" style="margin-left: 15px;">
+				<input type="radio" name="addPackRadio" style="vertical-align: sub;" data-ng-model="priceId" data-ng-click="durationSelectionFun(priceData,plan.planId)" data-ng-value="priceData.id">&nbsp;
+				<span style="font-size: 14px;">
+					<span>{{priceData.duration}}</span><span style="color:blue;">({{priceData.price}}&nbsp;{{currencyCode}})</span>
+				</span>
+			  </li>
+			</ul>
+			<div>
+			   <table data-ng-show="(screenName == 'additionalorders'||screenName == 'changeorder')" ><tr>
+				<td valign="top" style="padding-top: 0px;"><strong class="lightbluecolor">{{'label.autorenew'|translate}} :</strong></td>
+				<td><switch name="yesNo" ng-model="plan.autoRenew"  on="Yes" off="No" class="wide"></switch></td>
+			   </tr></table>
+			  <button data-ng-show="screenName == 'additionalorders'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px;padding:1px 5px; "><i class="icon-plus icon-white"></i>
+				{{'btn.add.pack' | translate}}
+			  </button>
+			  <button data-ng-show="screenName == 'changeorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;"><i class="icon-retweet icon-white"></i>
+				{{'btn.change.pack' | translate}}
+			  </button>
+			  <button data-ng-show="screenName == 'renewalorder'" data-ng-click="checkingRecurringStatus(plan.autoRenew)"
+					class="btn btn-primary" style="margin-left: 15px; padding:1px 5px;"><i class="icon-arrow-up icon-white"></i>
+				{{'btn.topup.pack' | translate}}
+			  </button>
+			</div>
+			
+		 </div>
+	   </div>
+	 </div>
+	 <table data-ng-if="screenName == 'additionalorders'">
+	  <tr>
+	  	<td style="font-weight: 100;padding: 0" valign="top">
+		  <div style="height:430px;width:740px;overflow-y:auto;" >
+		 	<div data-ng-repeat="plan in plansData track by $index" data-ng-show="plan.pricingData.length!=0"> 
+			 <div class="packbox6" style="min-height: 350px;min-width: 300px;">
+		 	  	 <div class="ribbon ribbon-small ribbongreen">
+					<div class="banner">
+						<div class="text">prepaid</div>
+					</div>
+				</div>
+				<h1 style="line-height: 25px;">{{plan.planCode}}
+				<a data-ng-click="viewPlanServices(plan.planId)" style="color:#fff;text-transform: lowercase;"> ({{'label.view' | translate}}) </a></h1>
+									
+				 <!-- <div><ul style="margin: 0 0 0 0px;padding: 5px 2px 0px 2px;height: 148px;">
+				  <li data-ng-repeat="priceData in plan.pricingData track by $index" class="nonecontent" style="margin-left: 15px;" >
+					<div  style="float: left; width: 102%;"><input type="checkbox" checked="checked" name="addPackCheckbox" id="{{prepaidPlanData.id}}" value="prepaidPlanData.id"  style="vertical-align: sub;" data-ng-model="priceData.isCheck" data-ng-change="durationCheckboxSelectionFun(priceData.id,priceData.price,priceData.isCheck,priceData.planId,$index,$parent.$index)"
+					 data-ng-click="checkboxSelection($parent.$index,$index, plan.pricingData,priceData,plan.planId)" data-ng-true-value="yes" data-ng-false-value="no" >&nbsp;
+					
+					<span style="font-size: 14px;">
+					<strong>{{priceData.duration}}</strong>
+					</span>
+				  </div>
+				   <div data-ng-show="priceData.isCheck" >
+						<input type="radio" name="orderType" style="vertical-align: top;" data-ng-model="orderType" data-ng-value="regular"
+						data-ng-click="radioTypeSelection('regular')"> <strong class="lightbluecolor">Regular </strong>
+						
+						<input type="radio" name="orderType" style="vertical-align: top;" data-ng-model="orderType" data-ng-value="multiroom"
+						data-ng-click="radioTypeSelection('multiroom')"> <strong class="lightbluecolor">MultiRoom</strong>
+					</div>
+					 </li>
+				  <div style="height:280px;" data-ng-show="!plan.isClickedToShowConnections && ordertype"></div>
+                         <div  style="font-size: 16px;" data-ng-show="plan.isClickedToShowConnections && ordertype"><br /><br /><br />
+					<span>1st Connection</span>
+						<span style="color:blue;">=&nbsp;{{plan.price}}&nbsp;{{currencyCode}}/{{duration}}</span><br>
+					<span>2nd,3rd & 4th Connection</span>
+					      <span style="color:blue;">=&nbsp;{{plan.secondaryPrice}}&nbsp;{{currencyCode}}/{{duration}}</span>
+					
+					<div class="control-group"><br />
+                          <label class="control-label" for="paytermCode"><strong>No of Connections</strong></label>
+                            <div class="controls">
+              					<select class="input-small" id="noOfConnections" data-ng-model="plan.noOfConnections" data-ng-change=changeConnections($index,plan.noOfConnections,plan.planId) data-ng-readonly="changePlan">
+              					<option  data-ng-repeat= "connection in connectionDatas" data-ng-disabled="connection.isDisabled">{{connection.value}}</option>
+              					</select>&nbsp;&nbsp;Price
+              				    <input type="text" class="input-small" id="price" data-ng-model="plan.connectionPrice" Style="width:70px;" readonly>
+             				</div>
+                          </div> 
+                          <div style="height:75px;" data-ng-show="plan.isDeposit"></div>
+                          <div class="control-group" data-ng-hide="plan.isDeposit">
+                         <label class="control-label" for="deposit" style="padding-top: 0;"><strong>Deposit</strong></label>
+                            <div class="controls">
+                              <input type="text" Style="width:75px;" data-ng-model="plan.deposit" readonly/>
+                              &nbsp;Total: <input type="text" class="input-small" id="total" Style="width:70px;" data-ng-model="plan.totalPrice" readonly>
+                           </div>
+                         </div> 
+                         </div>
+					</ul>
+		   </div>  -->
+		    <div><ul style="margin: 0 0 0 0px;padding: 5px 2px 0px 2px;height: 148px;">
+				  <li data-ng-repeat="priceData in plan.pricingData track by $index" class="nonecontent" style="margin-left: 15px;" >
+					<div  style="float: left; width: 102%;"><input type="checkbox" checked="checked" name="addPackCheckbox" id="{{prepaidPlanData.id}}" value="prepaidPlanData.id"  style="vertical-align: sub;" data-ng-model="priceData.isCheck" data-ng-change="durationCheckboxSelectionFun(priceData.id,priceData.price,priceData.isCheck,priceData.planId,$index,$parent.$index)"
+					 data-ng-click="checkboxSelection($parent.$index,$index, plan.pricingData,priceData,plan.planId)" data-ng-true-value="yes" data-ng-false-value="no" >&nbsp;
+					
+					<span style="font-size: 14px;">
+					<strong>{{priceData.duration}}</strong>
+					</span>
+				  </div>
+				   <div data-ng-if="priceData.isCheck" >
+						<input type="radio" name="orderSpecification" style="vertical-align: top;" data-ng-model="orderType" value="regular"
+						data-ng-click="radioTypeSelection('regular')"> <strong class="lightbluecolor">Regular </strong>
+						
+						<input type="radio" name="orderSpecification" style="vertical-align: top;" data-ng-model="orderType"  value="multiroom"
+						data-ng-click="radioTypeSelection('multiroom')"> <strong class="lightbluecolor">MultiRoom</strong>
+					</div>
+					 </li>
+				  <div style="height:280px;" data-ng-show="!plan.isClickedToShowConnections"></div>
+                         <div  style="font-size: 16px;" data-ng-show="plan.isClickedToShowConnections">
+					<span data-ng-show="ordertype">1st Connection</span>
+						<span data-ng-show="ordertype" style="color:blue;">=&nbsp;{{plan.price}}&nbsp;{{currencyCode}}/{{duration}}</span><br>
+					<span data-ng-show="ordertype">2nd,3rd & 4th Connection</span>
+					      <span data-ng-show="ordertype" style="color:blue;">=&nbsp;{{plan.secondaryPrice}}&nbsp;{{currencyCode}}/{{duration}}</span>
+					<div class="control-group" >
+                            <div class="controls" >
+                               <label class="control-label" for="paytermCode" data-ng-show="ordertype"><strong>No of Connections</strong></label>
+              					<select class="input-small" data-ng-show="ordertype" id="noOfConnections"data-ng-model="plan.noOfConnections" data-ng-change=changeConnections($index,plan.noOfConnections,plan.planId) data-ng-readonly="changePlan">
+              					<option  data-ng-repeat= "connection in connectionDatas" data-ng-disabled="connection.isDisabled">{{connection.value}}</option>
+              					</select>&nbsp;&nbsp;
+              					Price <input type="text" class="input-small" id="price" data-ng-model="plan.connectionPrice" Style="width:70px;" readonly>
+             				</div>
+             				</div>
+                          <div class="control-group" data-ng-hide="plan.deposit == '0'">
+                         <label class="control-label" for="deposit" style="padding-top: 0;"><strong>Deposit</strong></label>
+                            <div class="controls">
+                              <input type="text" Style="width:75px;" data-ng-model="plan.deposit" readonly/>
+                              &nbsp;Total: <input type="text" class="input-small" id="total" Style="width:70px;" data-ng-model="plan.totalPrice" readonly>
+                           </div>
+                         </div> 
+                         </div>
+					</ul>
+		   </div> 
+		    <div >
+				    <button data-ng-click="pushCheckoutListFun(plan.planId)" class="btn btn-primary" style="margin-left: 15px;margin-top: 139px;padding:1px 5px; "><i class="icon-plus icon-white"></i>
+					{{'btn.add.pack' | translate}}
+				  </button>
+				</div>
+		 </div>
+		 </div>
+		 </td>
+	    <td valign="top" style="padding: 0">
+	      <div>
+			<div class="packbox6" style="min-height:400px;">
+				<h1 style="line-height: 25px;text-align: center;">Your Selected Packs Checkout List</h1>
+				<span>The changes you make to your packs (add/drop packs) will reflect on the section below. Please click on submit, to add your Subscription Package as follows:</span>
+				 <div data-ng-repeat="previewCheckoutList in previewCheckoutList" ng-if="$last" style="margin:10px 5px;">
+				  <div style="font-size: 18px;">
+					<strong >{{previewCheckoutList.planCode}}</strong>
+					<!-- <strong style="float: right;" class="lightbluecolor">{{previewCheckoutList.price}}(&nbsp;{{currencyCode}})</strong><br/> -->
+					<span style="font-size: 15px;">({{previewCheckoutList.duration}})</span>
+				  </div> 
+				</div>
+				<div data-ng-if="previewCheckoutList.length==0" class="error" style="margin-top:30px; ">
+					No Selection list available
+				</div>
+				<div data-ng-if="previewCheckoutList.length!=0">
+					<table><tr>
+					<td valign="top" style="padding-top: 0px;"><strong class="lightbluecolor">{{'label.autorenew'|translate}} :</strong></td>
+					<td><switch name="yesNo" ng-model="autoRenewBtn" ng-change="autoRenewBtnFun(autoRenewBtn)" on="Yes" off="No" class="wide"></switch></td>
+				   </tr></table>
+				</div>
+				<div style="font-size: 18px;margin:0px 5px 10px 0px;">
+					<strong >Total&nbsp;:</strong>
+					<strong style="float: right;" class="lightbluecolor">{{totalAmount}}(&nbsp;{{currencyCode}})</strong>
+				</div>
+			</div>
+			<div style="float: right;margin-right: 10px;">
+				<button class="btn btn-primary" style="padding:4px 5px;" data-ng-click="resetSelectionFun()">Reset<i class="icon-ban-circle icon-white"></i>
+			 	</button>
+				<button class="btn btn-primary" style="padding:4px 5px;" data-ng-click="submitFun()">Proceed to Pay<i class="icon-forward icon-white"></i>
+			 	</button>
+			</div>
+		  </div>
+	    </td>
+	   </tr>
+	 </table>
+</div>

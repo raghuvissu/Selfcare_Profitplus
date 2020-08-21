@@ -1,0 +1,104 @@
+<div data-ng-controller="ClientDocumentController">
+  <!-- <div>
+		<ul class="breadcrumb">
+			<li><table>
+        <tr>
+        <td>
+         <img data-ng-hide="imagePresent" src="../app/images/blank_avatar.jpg" alt="Avatar" width="40">
+          <img data-ng-show="imagePresent" src="{{image}}" alt="Avatar" width="40">
+        </td>
+        <td>
+            <small style="color:black;">{{displayName}}</small>
+            &nbsp;
+            <i class="icon-circle {{statusActive | StatusLookup}}"></i>
+        </td>
+        <td><small style="font-size:30px;">|</small></td>
+        <td>
+        <table>
+        	<tr>
+        		<td><small>Uniquely identified&nbsp;<strong>{{accountNo}}</strong></small></td>
+        	</tr>
+        	<tr>
+        	    <td><small>Cell Phone&nbsp;<strong>{{phone}}</strong></small></td>
+        	</tr>
+        </table>
+        </td>
+        <td><small style="font-size:30px;">|</small></td>
+        <td>
+        <table>
+        	<tr>
+        	   <td><i class="icon-building"></i><small>Office&nbsp;"<strong>{{officeName}}</strong>"</small></td>
+        	</tr>
+        	<tr>
+        	<td><small>Device # <strong>{{hwSerialNumber}}</strong></small></td>
+        	</tr>
+        </table>
+        </td>
+        <td><small style="font-size:30px;">|</small></td>
+        <td>
+        <table>
+        	<tr>
+        		<td><small>Client Type&nbsp;"<strong>{{categoryType}}</strong>"</small></td>
+        	</tr>
+        	<tr>
+        		<td><small>Balance&nbsp;<strong>{{balanceAmount}}</strong>&nbsp;{{currency}} </small></td>
+        		<td class="paddedleft0" data-ng-show="walletConfig"><small>[Wallet&nbsp;<strong>{{walletAmount}}</strong>&nbsp;{{currency}}]</small></td>
+        	</tr>
+        </table>
+        </td>
+        </tr>
+        </table></li>
+		</ul>
+		<ul class="breadcrumb">
+			<li><a href="#/clients">{{'link.clients' | translate}}</a> <span class="divider">/</span></li>
+			<li><a href="#/viewclient/{{clientId}}">{{'link.view.client'| translate}}</a> <span class="divider">/</span></li>
+			<li class="active">{{'link.upload.document' | translate}}</li>
+		</ul>
+	</div> -->
+<form name="clientdocument" novalidate="" class="form-horizontal" data-ng-submit="submit()">	
+	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label> <label
+		    data-ng-show="errorStatus">{{errorStatus}}</label> <label
+			data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code| translate}}</label>
+	</div>
+	<fieldset>
+		<legend>&nbsp;&nbsp;&nbsp;{{'label.upload.client.document' | translate}}</legend>
+		<table>
+		<tr>
+		<td>
+		<div class="control-group">
+			<label class="control-label" for="name">{{'label.name' |translate}}<span class="required">*</span></label>
+			<div class="controls">
+				<input type="text" name="name" data-ng-model="formData.name" required late-Validate />
+					<span data-ng-show="clientdocument.name.$invalid">
+					<small class="error" data-ng-show="clientdocument.name.$error.req">Required Field</small>
+				</span>
+			</div>
+		</div></td></tr>
+
+		<tr><td>
+		<div class="control-group">
+			<label class="control-label" for="description">{{'label.description'| translate}}</label>
+			<div class="controls">
+				<textarea rows="2" data-ng-model="formData.description"></textarea>
+			</div>
+		</div></td></tr>
+
+		<tr><td>
+		 <div class="control-group">
+			<label class="control-label" for="file">{{'label.select.file'| translate}}1<span class="required">*</span></label>
+			<div class="controls">
+				 <input id = "file" ng-model="file" valid-file  name="file" type="file" ng-file-select="onFileSelect($files)" required /> 
+				<span data-ng-show="clientdocument.file.$invalid">
+					<small class="error" data-ng-show="clientdocument.file.$error.req">please select a file to upload </small>
+				</span>
+			</div>
+		</div></td></tr>
+		
+		<tr><td align="right">
+			<a href="#/accountinfo"><button type="reset"class="btn" data-ng-click="reset123()">{{'button.cancel' |translate}}</button></a>
+			<button type="submit" data-ng-disabled="!clientdocument.$valid" class="btn btn-primary">{{'button.save' | translate}}</button>
+		</td></tr></table>
+	</fieldset>
+</form>
+</div>

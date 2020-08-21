@@ -1,0 +1,42 @@
+<div data-ng-controller="KortaTokenController">
+<br/><br/><br/>
+<div class="alert alert-success">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div>
+ <form action="https://netgreidslur.korta.is/testing/" method="post" >
+<input name="amount" type="hidden" value="{{amount}}">
+<input name="currency" type="hidden" value="{{currency}}">
+<input name="merchant" type="hidden" value="{{kortaMerchantId}}">
+<input name="terminal" type="hidden" value="{{kortaTerminalId}}">
+<input name="description" type="hidden" value="{{description}}">
+<input name="token" type="hidden" value={{tokenVal}}>
+<input name="do" type="hidden" value="">
+<input name="lang" type="hidden" value="{{optlang}}"> 
+<input name="skipcardverify" type="hidden" value="1">
+
+<input type="hidden" name="name" value="{{fullName}}">
+<input type="hidden" name="address" value="{{address}}">
+<input type="hidden" name="email" value="{{emailId}}">
+<input type="hidden" name="email2" value="{{emailId}}">
+<input type="hidden" name="zip" value="{{zipcode}}">
+<input type="hidden" name="city" value="{{city}}">
+<input type="hidden" name="country" value="{{country}}">
+<input type="hidden" name="phone" value="{{mobileNo}}">
+<input type="hidden" name="terms" value="Y">
+<input type="hidden" name="readonly" value="Y">
+
+
+<input name="checkvaluemd5" type="hidden" value={{md5value}}>
+<input type="hidden" name="downloadurl" value="{{downloadurl}}">
+<input type="hidden" name="refermethod" value="REDIRECT">
+<input type="hidden" name="refertarget" value="_top"> 
+		
+<button id="submitKortaTokenIntegration" type="submit" class="btn btn-primary" data-ng-hide="true">submit</button>
+</form>
+</div>

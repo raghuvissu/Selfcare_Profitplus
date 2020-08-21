@@ -1,0 +1,23 @@
+<div data-ng-controller="InterswitchIntegrationController">
+<br/><br/><br/>
+<div class="alert alert-success">
+	   <table><tr>
+	   		<td><span><img src="./images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div>
+ <form action="https://stageserv.interswitchng.com/test_paydirect/pay" method="post">
+ 
+	<input type="text"   name="product_id" 		  value="{{productId}}"> 
+	<input type="text"   name="pay_item_id" 	  value="{{payItemId}}">
+	<input type="text"   name="amount" 	  		  value="{{amount}}"> 
+	<input type="text"   name="currency" 		  value ="{{currency}}"/>
+	<input type="text"   name="site_redirect_url" value="{{siteRedirectURL}}" />
+	<input type="text"   name="txn_ref"      	  value="{{txnref}}" />
+	<input type="text"   name="hash"     		  value="5CF175F06B6BA5992897B3D954EA66CC46EBFCD913E7013C6E9841103A84B641F134B40F35ED878DAC86CDDEA53EF8E512529030FB3C099DDE42B974167B442D" />
+    <button id="submitInterswitchIntegration" type="submit" class="btn btn-primary" >submit</button>
+</form>
+</div>

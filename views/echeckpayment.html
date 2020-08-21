@@ -1,0 +1,98 @@
+<div data-ng-controller="EcheckPaymentController">
+ <div class="alert alert-success" data-ng-show="blockUI">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div> 
+<div data-ng-hide="blockUI">
+  <form name="achCard" class="form-horizontal well" style="border: 0px; width: 550px; padding: 10px;" ng-submit="submit()" novalidate="">
+		<div class="error" ng-show="errorStatus || errorDetails">
+			<label>{{'label.contract.error' | translate}}</label> 
+			<label ng-show="errorStatus">{{errorStatus}}</label> 
+			<label ng-hide="errorStatus" ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+		</div>
+		<fieldset>
+			<legend>&nbsp;&nbsp;&nbsp;{{'label.client.achcard' | translate}}</legend>
+			<table>
+				<tr>
+					<td>
+						<div class="control-group">
+							<label class="control-label" for="routingNumber">{{'label.client.achcard.routingNumber' | translate}}<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="text" name="routingNumber" ng-model="formData.routingNumber" required late-Validate />
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="control-group">
+							<label class="control-label" for="bankAccountNumber">{{'label.client.achcard.bankAccountNumber' | translate}}<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="text" name="bankAccountNumber" ng-model="formData.bankAccountNumber" ng-pattern="/^(?!0+$)\d{1,30}$/" required late-Validate /> 
+								<span ng-show="achCard.bankAccountNumber.$invalid"> 
+								<small class="error" ng-show="achCard.bankAccountNumber.$error.pattern"> Please enter digits only..! </small>
+								</span>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="control-group">
+							<label class="control-label" for="bankName">{{'label.client.achcard.bankName' | translate}}<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="text" name="bankName" ng-model="formData.bankName" required late-Validate />
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="control-group">
+							<label class="control-label" for="name">{{'label.client.achcard.name' | translate}}<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="text" name="name" ng-model="formData.name" required late-Validate />
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<div class="control-group">
+							<label class="control-label" for="accountType">{{'label.client.achcard.accountType' | translate}}<span class="required">*</span>
+							</label>
+							<div class="controls">
+								<input type="radio" name="accountType" ng-model="formData.accountType" ng-checked="formData.accountType == 'false'" value="checking" required late-Validate>Checking &nbsp; 
+								<input type="radio" name="accountType" ng-model="formData.accountType" ng-checked="formData.accountType == 'false'" value="savings" required late-Validate>Savings
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					 <div class="control-group">
+           				<label class="control-label" for="checkNumber">{{ 'label.chequeno' | translate }}</label>
+            				<div class="controls">
+             				  <input type="text" id="checkNumber" data-ng-model="formData.checkNumber" data-ng-pattern="/^[a-zA-Z0-9]+$/">
+           					   </div>
+         					</div>
+					</td>
+				</tr>
+			</table>
+			<div class="offset3">
+				<button type="reset" class="btn btn-cancel" ng-click="reset123()">{{'button.cancel' | translate}}</button>
+				<button type="submit" class="btn btn-primary btn-color" ng-disabled="!achCard.$valid">{{'button.save' | translate}}</button>
+			</div>
+		</fieldset>
+	</form>
+</div>
+</div>
