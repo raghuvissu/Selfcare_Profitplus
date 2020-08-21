@@ -1,0 +1,23 @@
+<div data-ng-controller="UserSettingController">
+  <br/>
+  <div class="headersdiv" >
+	  <h3><b class="marginleft10">{{'label.user.settings'|translate}}</b></h3>
+	</div>
+  <form name="usersettings" class="form-horizontal well"  >
+	<br/>
+    <div class="control-group offset1">
+        <label class="control-label">{{ 'label.change.language' | translate }}</label>
+        <div class="controls">
+            <select data-ng-model="localeLang" data-ng-options="lang.name for lang in langs" data-ng-change="changeLang(localeLang)">
+    		</select>
+        </div>
+    </div>
+    <div class="control-group offset1">
+        <label class="control-label">{{'label.change.dateformat' | translate}}</label>
+
+        <div class="controls">
+            <select data-ng-model="dateformat" data-ng-options="format for format in dates" class="form-control" data-ng-change="changeDateFormat(dateformat)"></select>
+        </div>
+    </div>
+   </form>
+</div>

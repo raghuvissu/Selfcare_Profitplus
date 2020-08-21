@@ -1,0 +1,177 @@
+<div data-ng-controller="WorldPayController">
+	
+    <h3><strong>Payment information</strong></h3>
+    
+    <!--<div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+    </div>-->
+	
+	
+	        
+    <form id="creditcardform" name="creditcardform" novalidate class="form-horizontal well"  data-ng-submit="submit()">
+
+        <!-- <div class="error" data-ng-show="errorStatus || errorDetails || message || errData"> 
+        <div class="error" data-ng-show="flag">
+            <label>{{'label.contract.error' | translate}}</label>
+            <!-- <label data-ng-show="errorStatus">{{errorStatus}}</label> 
+            <label data-ng-if="message != null">{{message}}</label>
+            <label data-ng-if="message != null">{{customCode}}</label>
+            <label data-ng-if="errData != null">{{apiError}}</label>
+            <!-- <label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label> 
+        </div>-->
+		
+		
+        <fieldset>        
+        
+            <table style="width: 100%;">
+                <tr>
+                    <td style="padding-top: 25px; width: 540px;">
+					
+						<div class="control-group">
+							<label class="control-label" for="isautoPayment">Amount</label>
+							<div class="controls">
+								<b style="color: #555555; font-size: 25px; margin-left: 5px;"> {{balanceAmount | CustomCurrency :'£'}}</b>
+							</div>
+						</div>
+					
+                        <div class="control-group">
+                            <label class="control-label" for="cardnumber">Card number <span class="required">*</span></label>
+                            <div class="controls">                                
+								<input placeholder="XXXX XXXX XXXX XXXX" tabindex="1" type="tel" id="number" autocomplete="off" name="number" data-ng-model="formData.cardNumber" 
+								data-ng-change="selectCardType(formData.cardNumber)" style="width: 366px;" required>
+								  
+                                <!--<div data-ng-show="creditcardform.cardnumber.$error.pattern"><small class="error" >Please enter only digits</small></div>
+                                <div data-ng-show="creditcardform.cardnumber.$error.minlength"><small class="error" >Minimum Enter 16 digits</small></div>-->
+                            </div>
+                        </div>
+						
+						<div class="control-group">
+                            <label class="control-label" for="cardnumber">Cardholder name <span class="required">*</span></label>
+                            <div class="controls">
+                                <input placeholder="Name as appears on card" tabindex="1" type="text" id="name" autocomplete="off" data-ng-model="formData.name" name="name" style="width: 366px;" required>
+								  
+                                <!--<div data-ng-show="creditcardform.cardnumber.$error.pattern"><small class="error" >Please enter only digits</small></div>
+                                <div data-ng-show="creditcardform.cardnumber.$error.minlength"><small class="error" >Minimum Enter 16 digits</small></div>-->
+                            </div>
+                        </div>
+						
+						<div class="control-group">
+                            <label class="control-label" for="expiryMonth">Expiry date <span class="required">*</span></label>
+                            <div class="controls">
+                                <input placeholder="MM/YY" tabindex="1" type="tel" id="expiry" name="expiry" autocomplete="off" style="width: 70px;" minlength="7" maxlength="9" 
+								data-ng-model="expiryDate" ng-change="isExpirationDate_Valid(expiryDate)" required>
+								
+								<!--<div data-ng-show="isNotValidDate"><small class="error" >Please enter valid Expire date</small></div>
+								<div data-ng-show="creditcardform.expiry.$error.minlength"><small class="error" >Please enter Expire Year</small></div>-->
+							</div>                            
+                        </div>
+						
+						<!--<div class="control-group">
+                            <label class="control-label" for="expiryYear">Expire Year<span class="required">*</span></label>
+                            <div class="controls">
+                                <input class="input-small" type="text" id="expiryYear" name="expiryYear" data-ng-pattern="/^[0-9]+$/"
+                                data-ng-model="formData.expiryYear" required  data-ng-minlength="4" maxlength="4" data-late-Validate/>
+							</div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.pattern"><small class="error" >Please enter only digits</small></div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.req"><small class="error" >Please enter Expire Year</small></div>
+                        </div>-->						
+						
+						<div class="control-group">
+                            <label class="control-label" for="cvc">CVC <span class="required">*</span></label>
+                            <div class="controls">
+                                <input placeholder="CVC" tabindex="1" type="text" id="cvc" name="cvc" autocomplete="off" ng-change="isCVC_Valid(formData.cvc)" data-ng-model="formData.cvc" minlength="3" maxlength="4" style="width: 70px;" required>
+                                <!--<div data-ng-show="creditcardform.cvc.$error.req"><small class="error" >Enter CVC</small></div>-->
+                            </div>
+                        </div>
+						
+						<div data-ng-hide="oneoffbutton == 'Y'" class="control-group">
+							<label class="control-label" for="isautoPayment">Enable Auto payment <span class="required">*</span></label>
+							<div class="controls">
+								{{oneoffbutton}}{{oneoffbutton}}
+								<input id="cmn-toggle-1" tabindex="1" name="isautoPayment" type="checkbox" data-ng-disabled="authorized == 'Y'" data-ng-model="isWorldpayBilling" data-ng-change="updateAutoBilling(isWorldpayBilling)" class="cmn-toggle cmn-toggle-round">
+								<label for="cmn-toggle-1"></label>
+							</div>
+						</div>						
+						
+						<div class="control-group">
+							<div class="controls" style="float: right;">
+								<button id="submit" tabindex="1" type="submit" data-ng-disabled="!creditcardform.$valid" class="btn btn-primary">{{btnPayName}}</button>
+								<a id="cancel" tabindex="1" href="#/profile"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>
+							</div>
+						</div>
+						
+						<!-- <div data-ng-if="flagbutton" class="control-group">
+							<div class="controls" style="float: right;">
+								<button id="submit" type="submit" data-ng-disabled="!creditcardform.$valid" class="btn btn-primary">Authorize payment</button>
+								<a id="cancel" href="#/profile"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>
+							</div>
+						</div> -->						
+						
+						<!--<div class="control-group">
+                            <label class="control-label" for="type">Card Type<span class="required">*</span></label>
+                            <div class="controls">
+                                <select id="type" name="type" data-ng-model="cardType" data-ng-change="selectCardType(cardType)" data-ng-options="cardTypeData for cardTypeData in cardTypeDatas"></select>
+                            </div>
+                        </div>-->
+						
+                    </td>
+                    <td style="padding-top: 25px;">
+						<div id="cardVirtual" class="4u 12u(mobile) important(mobile)">
+							<div class="field">
+								<div class="card-wrapper"></div>
+							</div>							
+						</div>
+					</td>                   
+                </tr>
+				
+				<tr>
+					<td colspan="2">
+						<div data-ng-show="blockUI">
+							<div id="pnRedirectWorldpay"><img src="../images/loading_evo.gif" /><p style="display: inline; font-size: 15px"></p></div>
+						</div>
+						<div data-ng-show="errorWP">
+							<div id="pnErrorWorldpay"><p style="display: inline; font-size: 15px"></p></div>
+						</div>
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="2">
+						<div id="cardLogos" class="12u 12u(mobile) important(mobile)" style="margin:50px 0 1em 0 !important; padding-top:1em; border-top: solid 1px #ccc;">
+							<div class="txtPowered">Powered by </div>
+							<div class="worldpay"><img src="../images/worldpay.png" /></div>
+							<div class="cards"><img src="../images/payment_cards.png" /></div>							
+						</div>
+					</td>
+				</tr>
+				
+            </table>	
+				
+			
+			<script type="text/javascript">var globalCardType = '';</script>			
+			<!-- <script src="../bower_components/validate/jquery.validate.js"></script> 
+			<script src="../bower_components/validate/jquery-ui.min.js"></script>
+			<script type="text/javascript" src="../bower_components/credit-card/appPayment.js"></script>
+			<script type="text/javascript" src="../bower_components/credit-card/card.js"></script> -->
+			
+			<script>
+				new Card({
+					form: document.querySelector('form#creditcardform'),
+					container: '.card-wrapper',							
+					placeholders: {
+						number: '**** **** **** ****',
+						name: 'U-MEE ROBOT',
+						expiry: '**/**',
+						cvc: '***'
+					}							
+				});
+			</script>			
+			
+        </fieldset>
+    </form>
+</div>

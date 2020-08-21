@@ -1,0 +1,31 @@
+<div data-ng-controller="PaypalRecurringController">
+<br/><br/><br/>
+<div class="alert alert-success">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+</div>
+<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top" >
+	<input type="hidden" name="cmd" value="_xclick-subscriptions">
+	<input type="hidden" name="business" value="{{emailId}}">
+	<input type="hidden" name="lc" value="US">
+	<input type="hidden" name="item_name" value="billing">
+	<!--<input type="hidden" name="no_note" value="123">-->
+	<input type="hidden" name="src" value="1">
+	<input type="hidden" name="a3" value="{{price}}">
+	<input type="hidden" name="p3" value="{{period}}">
+	<input type="hidden" name="t3" value="{{time}}">
+	<input type="hidden" name="currency_code" value="USD">
+	<input type="hidden" name="srt" value="">
+	<input type="hidden" name="rm" value="2">
+	<input type="hidden" name="custom" value='{{customValue}}'>
+	<input type="hidden" name="return" value="{{returnURL}}">
+	<input type="hidden" name="bn" value="PP-SubscriptionsBF:btn_subscribeCC_LG.gif:NonHostedGuest">
+	
+<button id="submitPaypalRecurringBtn" type="submit" class="btn btn-primary" data-ng-hide="true">submit</button>
+</form>
+</div>

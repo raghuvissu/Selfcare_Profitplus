@@ -1,0 +1,130 @@
+<div data-ng-controller="WorldPayController">
+	
+    <h3><strong>Payment Information</strong></h3>
+    
+    <div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+     </div>
+	
+    <form name="creditcardform" novalidate class="form-horizontal well"  data-ng-submit="submit()">
+
+        <div class="error" data-ng-show="errorStatus || errorDetails">
+            <label>{{'label.contract.error' | translate}}</label>
+            <label data-ng-show="errorStatus">{{errorStatus}}</label> {{errorDetails}}
+            <label data-ng-if="message != null">{{message}}</label>
+            <label data-ng-if="message != null">{{customCode}}</label>
+            <label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+        </div>
+        <div class="error" data-ng-if="message != null">
+            <label>{{'label.contract.error' | translate}}</label>
+            <label>{{message}}{{customCode}}</label>
+        </div>
+        <fieldset>
+        <b style="color: #555555; font-size: 25px; margin-left: 5px;"> {{balanceAmount | CustomCurrency :'£'}}</b>
+        
+            <table>
+                <tr>
+                    <td>
+                        <div class="control-group">
+                            <label class="control-label" for="cardnumber">Card Number<span class="required">*</span></label>
+                            <div class="controls">
+                                <input type="text"  id="cardnumber" name="cardnumber" data-ng-model="formData.cardNumber" data-ng-change="selectCardType(formData.cardNumber)" data-ng-pattern="/^[0-9]+$/"
+                                  data-ng-minlength="16" maxlength="16"  required  data-late-Validate/>
+                                <div data-ng-show="creditcardform.cardnumber.$error.pattern">
+                                    <small class="error" >Please enter only digits</small>
+                                </div>
+                                <div data-ng-show="creditcardform.cardnumber.$error.minlength">
+                                    <small class="error" >Minimum Enter 16 digits</small>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+						<div class="control-group">
+							<label class="control-label" for="isautoPayment">Recurring-Enable<span class="required">*</span></label>
+							<div class="controls">
+								<input id="cmn-toggle-1" name="isautoPayment" type="checkbox" 
+								data-ng-model="isWorldpayBilling"
+								data-ng-change="updateAutoBilling(isWorldpayBilling)"
+								 class="cmn-toggle cmn-toggle-round">
+								<label for="cmn-toggle-1"></label>
+							</div>
+						</div>
+					</td>
+					
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <div class="control-group">
+                            <label class="control-label" for="expiryMonth">Expire Month<span class="required">*</span></label>
+                            <div class="controls">
+                                <input class="input-small" type="text" id="expiryMonth" name="expiryMonth" data-ng-pattern="/^[0-9]+$/"
+                                data-ng-model="formData.expiryMonth" data-ng-minlength="2" maxlength="2" required  data-late-Validate/>
+                            </div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.pattern">
+                                    <small class="error" >Please enter only digits</small>
+                                </div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.req">
+                                    <small class="error" >Please enter Expire date</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="control-group">
+                            <label class="control-label" for="expiryYear">Expire Year<span class="required">*</span></label>
+                            <div class="controls">
+                                <input class="input-small" type="text" id="expiryYear" name="expiryYear" data-ng-pattern="/^[0-9]+$/"
+                                data-ng-model="formData.expiryYear" required  data-ng-minlength="4" maxlength="4" data-late-Validate/>
+                            </div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.pattern">
+                                    <small class="error" >Please enter only digits</small>
+                                </div>
+                            <div data-ng-show="creditcardform.expiryYear.$error.req">
+                                    <small class="error" >Please enter Expire Year</small>
+                            </div>
+                        </div>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td>
+                        <div class="control-group">
+                            <label class="control-label" for="cvc">CVC<span class="required">*</span></label>
+                            <div class="controls">
+                                <input type="text" id="cvc" name="cvc" data-ng-model="formData.cvc" data-ng-pattern="/^[0-9]+$/" data-ng-minlength="3" maxlength="3" required  data-late-Validate/>
+                                <div data-ng-show="creditcardform.expiryYear.$error.req">
+                                    <small class="error" >Enter CVV.....</small>
+                                </div>
+                                <div data-ng-show="creditcardform.cvc.$error.pattern">
+                                    <small class="error" >Please enter only digits</small>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="control-group">
+                            <label class="control-label" for="type">Card Type<span class="required">*</span></label>
+                            <div class="controls">
+                                <select id="type" name="type" data-ng-model="cardType"  
+						 		data-ng-change="selectCardType(cardType)"
+						 		data-ng-options="cardTypeData for cardTypeData in cardTypeDatas"></select>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                 <td align="right">
+                    <a id="cancel" href="#/profile"><button type="reset" class="btn">{{'btn.cancel' | translate}}</button></a>
+                    <button id="submit" type="submit" data-ng-disabled="!creditcardform.$valid" class="btn btn-primary">{{'btn.save' | translate}}</button>
+                  </td>
+                </tr>
+            </table>	
+        </fieldset>
+    </form>
+</div>

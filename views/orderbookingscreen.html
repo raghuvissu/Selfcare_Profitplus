@@ -1,0 +1,44 @@
+<div data-ng-controller="OrderBookingScreenController" >
+	<br/><br/><br/>
+	<div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+	</div>
+  <div data-ng-hide="errorStatus || errorDetails">
+	<div class="alert alert-success" data-ng-show="blockUI">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'label.pleasewait'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+	</div>
+	</div>
+	<script type="text/ng-template" id="paypalrecurringsuccesspopup.html">
+        <div class="modal-body modal-medium" style="padding:25px 0px 0px 35px;">
+			<div class="alert alert-success">
+			   <table><tr>
+			   		<td colspan="3" >
+						<span><img src="../images/info-icon.png" width="30"></span>
+					</td>
+	         		<td><span>
+	         				<strong class="marginleft40" >{{'label.thankyou.msg'|translate}}</strong><br/>
+	         			</span>
+					 	<span>
+	         				<strong class="marginleft40" >{{'label.verify.recurringmsg.payment'|translate}}</strong><br/>
+	         			</span>
+						<span>
+	         				<strong class="marginleft40" >{{'label.verify.recurringmsg.waitmsg'|translate}}</strong><br/>
+	         			</span>
+	         		</td></tr>
+			   </table> 
+			</div>
+         </div>
+		<div class="modal-footer">
+           <a id="submit" class="btn btn-primary" ng-click="done()">{{'btn.done' | translate}}</a>
+        </div>            
+	</script>
+</div>
+     

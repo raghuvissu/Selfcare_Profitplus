@@ -1,0 +1,199 @@
+<div data-ng-controller="ActivateUserController">
+	<div class="loading-widget-div" data-ng-show="blockUI">
+	   <div id="circularG">
+	      <div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+	       <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+	       <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+	       <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+	   </div>
+    </div><br/>
+    <div data-ng-show="(errorDetails[0].code != 'error.msg.billing.generatedKey.already.verified')&&!isRegPage">
+       <div class="error" data-ng-show="errorStatus || errorDetails">
+		<label>{{'label.contract.error' | translate}}</label>
+		<label data-ng-show="errorStatus">{{errorStatus}}</label>
+		<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+       </div>
+    </div>
+	<form class="form-horizontal">
+		<div class="alert alert-success" data-ng-show="isAlreadyActive==true" style="margin-top:50px;">
+		   <table><tr><td><span><img src="../images/warning-icon.png" width="30"></span></td>
+         		<td><strong class="marginleft40" >{{'title.account.activated.signin'|translate}}
+         			<a data-ng-click="goToSignInPageFun()" class="alert-link" style="color:#000000;">{{'btn.login'|translate}}</a></strong>
+         		</td></tr>
+		   </table> 
+		</div>
+	</form> 
+	<form name="regSuccessForm" novalidate class="form-horizontal well" data-ng-show="isRegPage">
+		<div  data-ng-hide="errorDetails[0].code == 'error.msg.billing.address.city.not.found'" style="padding: 10px;">
+		 	<div class="error" data-ng-show="errorStatus || errorDetails">
+				<label>{{'label.error' | translate}}</label>
+				<label data-ng-show="errorStatus">{{errorStatus}}</label>
+				<label data-ng-hide="errorStatus" data-ng-repeat="error in errorDetails">{{error.code | translate}}</label>
+			</div>
+		</div>
+		 <fieldset>
+			<h3 >{{'label.registration.page' | translate}}</h3>
+			<table>
+	       	  <tr>
+	       	    <td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">{{'label.customer.name' | translate}}&nbsp;<span class="required">*</span></label>
+          			   <div class="controls">
+		                 <input data-ng-autofocus="true" name="fullName" type="text" data-ng-model="displayName" placeholder= "{{'label.customer.name' | translate}}" required  data-late-Validate/>
+          			   </div>
+      				</div>
+       			</td>
+       			 <td valign="top">
+          			<div class="control-group" style="margin-bottom:30px;">
+          			   <label class="control-label">{{'label.password' | translate}}&nbsp;</label>
+          			   <div class="controls">
+		                 <input name="password" type="password" data-ng-model="formData.password" placeholder= "{{'label.password' | translate}}" />
+          			   </div>
+      				</div>
+       			</td>
+	       	 </tr>
+	       	 <tr>
+       			<td valign="top">
+      			  <div class="control-group" style="margin-bottom:30px;">
+          			<label class="control-label">{{'label.mobilephone' | translate}}&nbsp;<span class="required">*</span></label>
+       				<div class="controls">
+       				  <input name="phone" type="text" data-ng-model="formData.mobileNo" placeholder= "{{'label.mobilephone' | translate}}" data-ng-minlength="7" maxlength="15"
+       							data-ng-pattern="/^\d{1,15}$/" required  data-late-Validate/><br/>
+       					<span data-ng-show="regSuccessForm.phone.$dirty && regSuccessForm.phone.$invalid">
+			       			<small class="error" data-ng-show="regSuccessForm.phone.$error.pattern">{{'form.error.number'|translate}}</small>
+			       			<small class="error" data-ng-show="regSuccessForm.phone.$error.minlength">{{'form.error.number.digits.atleast'|translate}}</small>
+			   			</span>
+       				</div>
+      			  </div>
+	       		</td>
+	       	   <td valign="top">
+       			<div class="control-group" style="margin-bottom:10px;" data-ng-show="isConfigNationalId">
+                  <label class="control-label">{{ 'label.nationalid' | translate }}&nbsp;<span class="required">*</span></label>
+                   <div class="controls">
+	                   <input type="text" data-ng-model="formData.nationalId" name="nationalId" placeholder= "{{ 'placeholder.enter.nationalid.example' | translate }}" maxlength="11"
+	                  		 data-ng-onblur="nationalIdValidationFun(formData.nationalId)"/><br/>
+	                   <small>{{'label.pattern'|translate}}{{'hint.nationaid.pattern'|translate}}</small><br/>
+	                   <small class="error" data-ng-hide="nationalIdvalue">{{'form.error.nationalid.pattern'|translate}}</small>
+                   </div>
+                </div>	
+                <div class="control-group" style="margin-bottom:30px;" data-ng-hide="isConfigNationalId">
+                   <label class="control-label">{{ 'label.nationalid' | translate }}&nbsp;</label>
+                    <div class="controls">
+                      <input type="text" data-ng-model="formData.nationalId" name="nationalId" placeholder= "{{ 'label.nationalid' | translate }}" maxlength="11"/><br/>
+                    </div>
+               </div>
+       		  </td>
+	       	  </tr>
+	       	  <tr>
+       		  <td valign="top">
+       			<div class="control-group" style="margin-bottom:30px;">
+       			  <label class="control-label">{{'label.telephone.number' | translate}}&nbsp;</label>
+       			  <div class="controls">
+       				<input name="telePhone" type="text" data-ng-model="formData.homePhoneNumber" placeholder= "{{'label.telephone.number' | translate}}" data-ng-minlength="7" maxlength="15"
+       							data-ng-pattern="/^\d{1,15}$/" /><br/>
+       				<span data-ng-show="regSuccessForm.telePhone.$dirty && regSuccessForm.telePhone.$invalid">
+			       	   <small class="error" data-ng-show="regSuccessForm.telePhone.$error.pattern">{{'form.error.number'|translate}}</small>
+			       	   <small class="error" data-ng-show="regSuccessForm.telePhone.$error.minlength">{{'form.error.number.digits.atleast'|translate}}</small>
+			   		</span>
+       			  </div>
+   			    </div>
+	       	   </td>
+       			<td valign="top">
+           		  <div class="control-group" style="margin-bottom:30px;">
+                    <label class="control-label" for="address">{{ 'label.home.address' | translate }}&nbsp;<span class="required">*</span></label>
+                    <div class="controls">
+   	                  <input type="text" data-ng-model="formData.address" name="address" placeholder= "{{ 'placeholder.enter.address' | translate }}" required data-late-Validate/>
+                    </div>
+                  </div>	
+       			</td>
+       		  </tr>
+       		  <tr>
+	       		<td valign="top">
+        			<div class="control-group" style="margin-bottom:30px;">
+         				 <label class="control-label" for="city">{{'label.home.postcode' | translate}}&nbsp;<span class="required">*</span></label>
+		              <div class="controls">
+		               <input type="text" id="city" name="city" data-ng-model="formData.city" list ="citylist" placeholder= "{{'label.home.postcode' | translate}}" 
+		               			data-ng-change="getStateAndCountry(formData.city)" required data-late-Validate/><br/>
+		               	<span data-ng-show="errorDetails[0].code == 'error.msg.billing.address.city.not.found'">
+		        			<small class="error">{{'error.msg.billing.address.city.not.found'| translate}}</small>
+		    			</span>
+		              </div>
+       			    </div>
+	       	    </td>
+       			<td valign="top">
+        		  <div class="control-group" >
+        			<label class="control-label">{{'label.email' | translate}}&nbsp;</label>
+        			<div class="controls">
+        			   <input name="email" type="text" data-ng-model="existedEmail" placeholder= "{{'label.email' | translate}}" data-ng-disabled="true" required data-late-Validate><br/>
+        			</div>
+    			  </div>
+       			</td>
+	       	   </tr>
+	       	   <tr >
+	       		<td valign="top">
+                  <div class="control-group">
+	                <label class="control-label" for="state">{{'label.state/province' | translate}}&nbsp;</label>
+		            <div class="controls">
+		              <input type="text" id="state" data-ng-model="formData.state" disabled required data-late-Validate/>
+		            </div>
+        		  </div>
+     			</td>
+     			<td valign="top">
+            	   <div class="control-group" style="margin-bottom:30px;padding-left: 0px;" data-ng-show="isDeviceEnabled==true && isCPE_TYPESale == true">
+                     <label class="control-label">{{ 'label.macid' | translate }}&nbsp;<span class="required">*</span></label>
+                     <div class="controls">
+	                   <input type="text" id="device" data-ng-model="formData.deviceNo" name="deviceNo" placeholder= "{{ 'placeholder.enter.device' | translate }}"/><br/>
+                     </div>
+                   </div>	
+            	   <div class="control-group" style="margin-bottom:0px;" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
+                    <label class="control-label">{{ 'label.macid' | translate }}&nbsp;<span class="required">*</span></label>
+                    <div class="controls">
+    	              <input type="text" data-ng-model="formData.deviceNo" name="deviceNo" placeholder= "{{ 'placeholder.enter.device' | translate }}" 
+    	                     data-ng-onblur="getDataForMacId(formData.deviceNo)" data-ng-disabled="isDisabledMacId"/><br/>
+    	              <small class="error" data-ng-show="isInvalidMacId">{{'form.error.macid.invalid'|translate}}</small>
+                    </div>
+                   </div>	
+	         	   <strong class="offset7" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">{{'label.heading.or' | translate}}</strong>
+	       		</td>
+	       	   </tr>
+	       	   <tr>
+	       	     <td valign="top">
+	       	      <div class="control-group" style="margin-bottom:30px;padding-left: 0px;" data-ng-show="isConfigPassport">
+                    <label class="control-label" for="passport">{{ 'label.passport' | translate }}&nbsp;<span class="required">*</span></label>
+                    <div class="controls" >
+   	                  <input type="text" data-ng-model="formData.passport" id="passport" name="passport" placeholder= "{{ 'placeholder.enter.passport' | translate }}" required data-late-Validate/> 
+                    </div>
+                  </div>
+                  <div class="control-group" style="margin-bottom:30px;padding-left: 0px;width:400px;" data-ng-show="isConfigRedeem">
+                    <label class="control-label" for="voucherNumber">{{ 'label.voucher.number' | translate }}&nbsp;<span class="required">*</span></label>
+                    <div class="controls" >
+   	                  <input type="text" data-ng-model="voucherNumber" name="voucherNumber" data-ng-onblur="voucherNumberValidationFun(voucherNumber)" placeholder= "{{ 'placeholder.enter.voucher.number' | translate }}" required data-late-Validate/><br/>
+   	                  <small class="error" data-ng-show="isInValidVoucher">{{'error.invalid.voucher'|translate}}&nbsp;:{{voucher}}</small> 
+   	                  <small class="error" data-ng-show="isDateExpired">{{'error.voucher.dateexpiry'|translate}}</small> 
+                    </div>
+                  </div>
+	       	     </td>
+	       	   	 <td valign="top" data-ng-show="isDeviceEnabled==true && isCPE_TYPEOwn == true">
+	       	   		<div class="control-group">
+                      <label class="control-label">{{ 'label.serialnumber' | translate }}&nbsp;<span class="required">*</span></label>
+	                   <div class="controls">
+	    	             <input type="text" data-ng-model="provisioningSerialNumber" placeholder= "{{ 'placeholder.enter.serialnumber' | translate }}" 
+	    	                   data-ng-onblur="getDataForSerialNumber(provisioningSerialNumber)" data-ng-disabled="isDisabledSerialNumber" /><br/>
+	    	             <small class="error" data-ng-show="isInvalidSerialNumber">{{'form.error.serialnumber.invalid'|translate}}</small>
+	                   </div>
+                    </div>
+	       	   	 </td>
+	       	   </tr>
+	       	   <tr>
+	       	   	  <td align="right" colspan="2">
+					 <button data-ng-show="isConfigNationalId" data-ng-click="registerBtnFun()" class="btn btn-primary pull-right" data-ng-disabled="!regSuccessForm.$valid||!formData.nationalId||!nationalIdvalue||isInvalidMacId||isInvalidSerialNumber"><i class="icon-thumbs-up icon-white"></i>{{'btn.register' | translate}}</button>
+					 <button data-ng-hide="isConfigNationalId" data-ng-click="registerBtnFun()" class="btn btn-primary pull-right" data-ng-disabled="!regSuccessForm.$valid||isInvalidMacId||isInvalidSerialNumber"><i class="icon-thumbs-up icon-white"></i>{{'btn.register' | translate}}</button>
+	       	   	  </td>
+	       	   </tr> 
+	       	</table>
+	       	<datalist id="citylist">
+                   			<option  data-ng-repeat="city in cities" value="{{city}}">
+            </datalist>
+	       </fieldset>
+	</form>
+</div>

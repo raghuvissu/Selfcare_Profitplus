@@ -1,0 +1,154 @@
+<div data-ng-controller="AddEventsController">
+	<div class="loading-widget-div" data-ng-show="blockUI">
+        <div id="circularG">
+        	<div id="circularG_1" class="circularG"></div><div id="circularG_2" class="circularG"></div>
+            <div id="circularG_3" class="circularG"></div><div id="circularG_4" class="circularG"></div>
+            <div id="circularG_5" class="circularG"></div><div id="circularG_6" class="circularG"></div>
+            <div id="circularG_7" class="circularG"></div><div id="circularG_8" class="circularG"></div>
+        </div>
+    </div>
+    <div class="alert alert-success" data-ng-show="isRedirecting">
+	   <table><tr>
+	   		<td><span><img src="../images/info-icon.png" width="30"></span></td>
+        		<td><span><strong class="marginleft40" ><i class="icon-refresh icon-spin"></i>
+        				{{'title.redirecting'|translate}}</strong><br/>
+        			</span>
+        		</td></tr>
+	   </table> 
+	</div>
+ 	<div class="row-fluid" data-ng-show="vodEventScreen"><br/>
+		<div class="headersdiv" >
+		  <h3><b class="marginleft10">{{'label.vod.add.event'|translate}}</b></h3>
+		   <input type="text"  class="search-query span3 pull-right inputserach" data-ng-model="filterText"  
+		   		style="width:170px;min-height: 22px;" data-ng-autofocus="true" placeholder="{{ 'placeholder.filter.vod' | translate }}">
+		</div>
+		<div>
+		 <table class="table margintop10" >
+	        <thead>
+	            <tr class ="bluebg drakbluebg">
+	                <th>{{'table.header.vod.name'|translate}}</th>
+	                <th>{{'table.header.vod.quality'|translate}}</th>
+	                <th>{{'table.header.vod.price'|translate}}({{currencyCode}})</th>
+	                <th>{{'table.header.vod.select'|translate}}</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr data-ng-repeat="mediaDetail in mediaDetails  | customFilter: filterText : ['mediaTitle','quality','price']" >
+	                <td style="font-weight: inherit;color: #555555;"><label >{{mediaDetail.mediaTitle}}</label></td>
+	                <td><label >{{mediaDetail.quality}}</label></td>
+	                <td><label >{{mediaDetail.price}}</label></td>
+	                <td><input type="checkbox" data-ng-model="active" data-ng-change="selectedEventsFun(mediaDetail,active)"></td>
+	            </tr>
+	            <tr data-ng-hide ="mediaDetails.length == 0">
+	                <td colspan="4" style="padding-left: 68%;">
+	                <button  data-ng-click="goBack()" class="btn">{{'btn.cancel'|translate}}</button>
+	                <button  data-ng-click="checkOutFun()" class="btn btn-primary">{{'btn.checkout'|translate}}</button></td>
+	            </tr>
+	        </tbody>
+	     </table>
+	    </div>
+	</div>
+	<div class="row-fluid" data-ng-show="eventDetailsPreview">
+		<br/>
+		<div class="headersdiv" >
+		  <h3><b class="marginleft10">{{'label.vod.event.conformation'|translate}}</b></h3>
+		</div>
+		<div>
+		<table class="table margintop10">
+	        <thead>
+	            <tr class="graybg drakgraybg">
+	                <th>{{'table.header.vod.eventname'|translate}}</th>
+	                <th>{{'table.header.vod.quality'|translate}}</th>
+	                <th>{{'table.header.vod.price'|translate}}({{currencyCode}})</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr data-ng-repeat="mediaData in mediaDatas track by $index | filter:filterText" >
+	                <td style="font-weight: inherit;color: #555555;">{{mediaData.mediaTitle}}</td>
+	                <td>{{mediaData.quality}}</td>
+	                <td>{{mediaData.price}}</td>
+	            </tr>
+	        </tbody>
+	    </table>
+	    </div>
+	   <hr width=20% style="margin-left:568px;background-color:#0088cc;height:4px;margin-bottom:4px;">
+	   <div class="animated pulse">
+	 	  <span style="color:#0088cc;font-size:20px;margin-left:580px;" class="pull-left">{{'label.amount.total'|translate}}</span>
+	  	 <span style="font-size:20px;margin-right:215px;" class="pull-right">{{totalAmount}}</span><br/><br/>
+	   </div>
+		<div class="offset1" style="margin-top: 35px;" data-ng-hide="totalAmount == 0">
+		   <table class="fullwidth">
+			  <tr>
+   				<td width="65%" class="bigfont" valign="top" align="right">
+   						{{'label.select.payment.gateway' | translate}}&nbsp;&nbsp;:
+   				</td>
+       			<td>
+       				<div data-ng-repeat="paymentgatewayData in paymentgatewayDatas track by $index" class="marginbottom10">
+       					<input type="radio" id="{{paymentgatewayData.name}}" name="selectPWName" class="radioalign" data-ng-model="paymentGatewayName" 
+       					   value="{{paymentgatewayData.name}}" data-ng-click="paymentGatewayFun(paymentgatewayData.name)"/>&nbsp;
+      					   <label for="{{paymentgatewayData.name}}" class="inlinedis pointer">
+      								<img src="../images/{{paymentgatewayData.name}}.jpg" width="110px;">
+      					   </label><br/>
+       				</div>
+       				<div class="error" data-ng-show="paymentGatewayName==''" style="font-size: 1.5em;margin-top: 0px;">
+       					 {{'label.notselect.payment.gateway' | translate}}<br/><br/>
+       					 {{'label.atleast.one.payment.gateway' | translate}}
+       				</div> 
+       			</td>
+          	  </tr>
+          	  <tr data-ng-hide="paymentGatewayName==''">
+          	  	 <td width="42%"></td>
+          	     <td>
+          	       <div class="control-group margintop20">
+					 <div class="controls">
+					    <input type="checkbox" name="checkbox" data-ng-model="termsAndConditions" style="vertical-align: sub;"> 
+					    <span> {{'label.agree' | translate}} <a data-ng-click="termsAndConditionsFun()" style="color: #0066cc;text-decoration: underline;">
+					    		{{'label.Terms.Conditions' | translate}}</a> 
+					    </span>
+					</div>
+				   </div> 
+          	     </td>
+          	  </tr>
+          	  <tr data-ng-hide="paymentGatewayName==''" >
+          	    <td style="padding-top: 30px;" align="right">
+          	      <div><a  data-ng-click="isRedirecting || cancelBtnFun()" class="btn" >{{'btn.cancel' | translate}}</a></div> 
+          	    </td>
+       		 	<td style="padding-top: 30px;" >
+      		 	   <div >
+					  <a class="btn btn-primary" data-ng-hide="termsAndConditions&&!isRedirecting" data-ng-disabled="true">{{'btn.proceed' | translate}}</a>
+					  <a class="btn btn-primary" href="{{paymentURL}}" data-ng-show="termsAndConditions&&!isRedirecting" data-ng-click="isRedirecting=true">
+					  	{{'btn.proceed' | translate}}
+					  </a>
+				   </div>
+				   
+       		 	</td>
+          	  </tr>
+          	  <tr data-ng-show="paymentGatewayName==''" >
+          	  	<td style="padding-top: 30px;" colspan="2" align="right">
+          	      <div><a  data-ng-click="cancelBtnFun()" class="btn" >{{'btn.cancel' | translate}}</a></div> 
+          	    </td>
+          	  </tr>
+          	</table>
+       	 </div>
+      <div data-ng-show="totalAmount == 0"><br/>
+      		<table class="fullwidth"><tr>
+      		   <td align="right" width="70%	">
+          	      <div><a  data-ng-click="cancelBtnFun()" class="btn" >{{'btn.cancel' | translate}}</a></div> 
+          	    </td>
+          	    <td><div >
+					  <a class="btn btn-primary" data-ng-click="subscribeBtnFun()">{{'btn.subscribe' | translate}}</a>
+				   </div></td></tr>
+      		</table>
+	   </div>
+	</div>
+	 <script type="text/ng-template" id="termsandconditions.html">
+		<form  class="form-horizontal well" style="border:0px;width:550px;padding:10px;">
+			<h4><strong>{{'label.terms.conditions' | translate}}</strong></h4>
+			<div>{{'label.read.agreement' | translate}}</div><br/>
+			<div style="max-height:300px; overflow-y:auto;border:1px solid;padding:10px;">
+				{{termsAndConditionsText}}
+		   </div><br/>
+		 <table class="fullwidth"><tr><td align="center"><div><a data-ng-click="done()" class="btn btn-primary">Done</a></div></td></tr></table>
+		</form>
+      </script>
+</div>
