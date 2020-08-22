@@ -62,7 +62,12 @@ ShopsController = function(scope,RequestSender,rootScope,filter,location, pagina
 			  });
 	  	   };
 
-		  scope.transactionsTabSelFun = function(tabName){
+			scope.getEntityPaymentsData = function() {
+				RequestSender.getEntityPayments.get({clientId: scope.clientId , officeId: scope.selectedShopObj.id} , function(data){
+					scope.shopWalletAmount = data.totalOfficeAmount;
+				});
+			};
+			scope.transactionsTabSelFun = function(tabName){
 		  		  scope.selectedTab = tabName
 		  		  console.log(tabName);
 		    	  scope.paymentsData = [];
@@ -116,6 +121,7 @@ ShopsController = function(scope,RequestSender,rootScope,filter,location, pagina
 				scope.selectedShopObj = shop;
 				if(isFromUI)scope.transactionsTabSelFun(scope.selectedTab);
 				scope.getImages(shop.id);
+				scope.getEntityPaymentsData();
 			}
 
 			scope.slides = [

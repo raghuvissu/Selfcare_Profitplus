@@ -10,9 +10,9 @@
          scope.start.date = new Date();
          scope.minDate = scope.start.date;
          scope.maxDate = scope.start.date;
-         RequestSender.clientResource.get({clientId: scope.clientId} , function(data) {
-            if(data.walletAmount) scope.walletAmount  = data.walletAmount;
-              else scope.walletAmount  =0;
+         RequestSender.getEntityPayments.get({clientId: scope.clientId , officeId: scope.officeId} , function(data){
+            if(data.totalOfficeAmount) scope.walletAmount  = data.totalOfficeAmount;
+            else scope.walletAmount  =0;
          });
 
          RequestSender.paymentsTemplateResource.getPayments({clientId : scope.clientId}, function(data){

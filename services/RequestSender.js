@@ -260,6 +260,9 @@ selfcareApp.config(function($provide) {
           officeTemplateResource: defineResource(apiVer + "/offices/template", {}, {
               get: {method: 'GET', params: {}},
           }),
+          getEntityPayments: defineResource(apiVer + "/entitypayments/:clientId/:officeId", {clientId:'@clientId', officeId:'@officeId'}, {
+            get: {method: 'GET', params: {}}
+          })
         };
       }];
     });
