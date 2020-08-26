@@ -25,7 +25,7 @@ ShopsController = function(scope,RequestSender,rootScope,filter,location, pagina
 			RequestSender.officeResource.getAllOffices({city : city},function(data) {	        
 			  	scope.shops = data;
 			  	for(var i in scope.shops){
-			  		if(scope.shops[i].id == scope.clientOfficeId){
+			  		if(scope.shops[i].id == scope.clientOfficeId && scope.shops[i].isEnabled == 'Y'){
 			  			scope.shopSelectFun(scope.shops[i]);
 			  		}
 			  	}
@@ -122,6 +122,7 @@ ShopsController = function(scope,RequestSender,rootScope,filter,location, pagina
 				if(isFromUI)scope.transactionsTabSelFun(scope.selectedTab);
 				scope.getImages(shop.id);
 				scope.getEntityPaymentsData();
+				scope.dataTableChange(shop.id);
 			}
 
 			scope.slides = [
@@ -145,6 +146,44 @@ ShopsController = function(scope,RequestSender,rootScope,filter,location, pagina
 					scope.selectedSlide++;
 				}
 			}
+
+			scope.dataTableChange = function (officeId) {
+                RequestSender.DataTablesResource.getTableDetails({datatablename: 'Basic Validation',
+                    entityId: officeId, genericResultSet: 'true'}, function (data) {
+                    scope.datatabledetails = data;
+                    scope.datatabledetails.isData = data.data.length > 0 ? true : false;
+                    scope.datatabledetails.isMultirow = data.columnHeaders[0].columnName == "id" ? true : false;
+                    scope.validationArr = [];
+                    for (var i in data.columnHeaders) {
+                        if (scope.datatabledetails.columnHeaders[i].columnCode) {
+                            for (var j in scope.datatabledetails.columnHeaders[i].columnValues) {
+                                for (var k in data.data) {
+                                    if (data.data[k].row[i] == scope.datatabledetails.columnHeaders[i].columnValues[j].id) {
+                                        data.data[k].row[i] = scope.datatabledetails.columnHeaders[i].columnValues[j].value;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (scope.datatabledetails.isData) {
+                        for (var i in data.columnHeaders) {
+                            if (scope.datatabledetails.isMultirow) {
+                                var row = {};
+								row.key = data.columnHeaders[i].columnName;
+								try {
+									row.value = parseFloat(data.data[0].row[i]);
+								} catch (error) {
+									row.value = data.data[0].row[i];
+								}
+                                scope.validationArr.push(row);
+                            }
+						}
+						console.log(scope.validationArr);
+					}
+					
+					
+                });
+            };
 
     };
     

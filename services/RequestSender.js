@@ -262,7 +262,11 @@ selfcareApp.config(function($provide) {
           }),
           getEntityPayments: defineResource(apiVer + "/entitypayments/:clientId/:officeId", {clientId:'@clientId', officeId:'@officeId'}, {
             get: {method: 'GET', params: {}}
-          })
+          }),
+          DataTablesResource: defineResource(apiVer + "/datatables/:datatablename/:entityId/:resourceId", {datatablename: '@datatablename', entityId: '@entityId', resourceId: '@resourceId'}, {
+            getAllDataTables: {method: 'GET', params: {}, isArray: true},
+            getTableDetails: {method: 'GET', params: {}}
+          }),
         };
       }];
     });

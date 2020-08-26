@@ -31,7 +31,7 @@
 					     		 </tr>
 					        </thead>
 					        <tbody>
-					            <tr data-ng-repeat="shop in shops | filter: filterText " ng-show="shop.id != 1">
+					            <tr data-ng-repeat="shop in shops | filter: filterText " ng-show="shop.id != 1 && shop.isEnabled == 'Y'">
 					                <!-- <td class= "pointer"  style="padding-left: 35px;color: #1e1d1d;"
 				                                 data-ng-click="routeProviderToticket(ticket.id)">{{shop.id}}</td> -->
 									<td class= "pointer" style="color: #1e1d1d;" ng-class="{selectedBgColor : shop.id == selectedShopObj.id}" ng-click="shopSelectFun(shop, true)">{{shop.name}}</td>
@@ -55,7 +55,11 @@
 						  <a class="carousel-control left" ng-click="slideLeftFun()">&lsaquo;</a>
 						  <a class="carousel-control right" ng-click="slideRightFun()">&rsaquo;</a>
 						</div>
+						<div class="margintop10" style="margin-bottom: 30px;color: #0e2970;">
+							<strong class="pull-right">PAY MINIMUM {{validationArr[3].value | CustomCurrency :'₹'}} AMOUNT GET</strong>
+						</div>
 					  <div>
+						
 	                    <span class="pull-right margintop10"><strong>Wallet Amount : {{shopWalletAmount | CustomCurrency :'₹'}}</strong></span>
 	                     <a href="#/payinvoice/{{selectedShopObj.id}}"  class="btn btn-primary pull-right marginright20 margintop5"> <i class="fa fa-create"></i>Make Payment</a>
 	                    <tabset class="margintop10">
